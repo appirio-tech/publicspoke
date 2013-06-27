@@ -13,8 +13,7 @@
 		<!-- article metas -->
 		<span class="meta">
 			<time datetime="<?php echo get_the_date('c'); ?>" pubdate><?php echo get_the_date('F d, Y'); ?></time> | 
-			<span class="byline vcard"><span class="fn author"><?php the_author();?></span> | 
-			<?php the_category(''); ?>
+			<span class="byline vcard"><span class="fn author"><?php the_author();?></span>			
 		</span>
 
 		<div class="entry-content">

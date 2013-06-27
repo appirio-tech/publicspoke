@@ -9,11 +9,11 @@ add_theme_support( 'post-thumbnails' );
 
 // add custom header support
 $defaults = array(
-	'default-image' => get_template_directory_uri() . '/i/smartsheet-logo-navy.png',
+	'default-image' => get_template_directory_uri() . '/i/logo.png',
 	'flex-width'    => true,
-	'width'         => 205,
+	'width'         => 146,
 	'flex-height'   => true,
-	'height'		=> 57,	
+	'height'		=> 39,	
 	'header-text'   => false,
 	'uploads'       => true
 );
@@ -36,32 +36,6 @@ function twitterify($ret) {
 return $ret;
 }
 
-function setfeedcache( $seconds )
-{
-  // change the default feed cache recreation period to 1 hour
-  return 3600;
-}
-
-
-
-function word_limiter($str, $limit = 100, $end_char = '&#8230;')
-{
-	if (trim($str) == '')
-	{
-		return $str;
-	}
-
-	preg_match('/^\s*+(?:\S++\s*+){1,'.(int) $limit.'}/', $str, $matches);
-
-	if (strlen($str) == strlen($matches[0]))
-	{
-		$end_char = '';
-	}
-
-	return rtrim($matches[0]).$end_char;
-}
-
-
 
 /**
  * Start of Theme Options Support
@@ -79,12 +53,12 @@ function themeoptions_page()
 
 	<div class="wrap">
 		<div id="icon-themes" class="icon32"><br /></div>
-		<h2>SmartSheet Theme Options</h2>
+		<h2>DocuSign Theme Options</h2>
 
 		<form method="POST" action="" enctype="multipart/form-data">
 			<input type="hidden" name="update_themeoptions" value="true" />			
 			
-			<h3>SmartSheet CloudSpokes Challenges</h3>
+			<h3>DocuSign CloudSpokes Challenges</h3>
 			<table width="100%">
 				<tr><?php $field = 'ssChallengeLabel'; ?>
 					<td width="150"><label for="<?php echo $field; ?>">Section Title:</label></td>
@@ -106,7 +80,8 @@ function themeoptions_page()
 			
 			<br />
 
-			<h3>SmartSheet Blog</h3>
+
+			<h3>DocuSign Blog</h3>
 			<table width="100%">
 				<tr><?php $field = 'ssBlogLabel'; ?>
 					<td width="150"><label for="<?php echo $field; ?>">Section Title:</label></td>
@@ -125,29 +100,7 @@ function themeoptions_page()
 					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
 				</tr>
 			</table>
-			
-			<br />
-			
-			<h3>SmartSheet Twitter Feed</h3>
-			<table width="100%">
-				<tr><?php $field = 'ssTweetLabel'; ?>
-					<td width="150"><label for="<?php echo $field; ?>">Section Title:</label></td>
-					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
-				</tr>
-				<tr><?php $field = 'ssTweetURL'; ?>
-					<td><label for="<?php echo $field; ?>">Feed URL:</label></td>
-					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
-				</tr>
-				<tr><?php $field = 'ssTweetItems'; ?>
-					<td><label for="<?php echo $field; ?>">Number of Items to show:</label></td>
-					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
-				</tr>
-				<tr><?php $field = 'ssTweetAll'; ?>
-					<td><label for="<?php echo $field; ?>">View All URL:</label></td>
-					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
-				</tr>				
-			</table>
-			
+						
 			<br />
 			
 			<h3>Social Media Links</h3>
@@ -160,12 +113,12 @@ function themeoptions_page()
 					<td><label for="<?php echo $field; ?>">Twitter URL:</label></td>
 					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
 				</tr>
-				<tr><?php $field = 'ssYoutubeURL'; ?>
-					<td><label for="<?php echo $field; ?>">Youtube URL:</label></td>
-					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
-				</tr>
 				<tr><?php $field = 'ssLinkedInURL'; ?>
 					<td><label for="<?php echo $field; ?>">LinkedIn URL:</label></td>
+					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
+				</tr>
+				<tr><?php $field = 'ssBlogURL'; ?>
+					<td><label for="<?php echo $field; ?>">Blog URL:</label></td>
 					<td><input type="text" id="<?php echo $field; ?>" name="<?php echo $field; ?>" size="100" value="<?php echo get_option($field); ?>"/></td>
 				</tr>
 			</table>
@@ -188,35 +141,53 @@ function themeoptions_page()
 	<?php
 }
 
+// Set default options
+if ( is_admin() && isset($_GET['activated'] ) && $pagenow == 'themes.php' ) {
+	// CS Challenge		
+	update_option('ssChallengeLabel', 		'CloudSpokes Challenges');
+	update_option('ssChallengeURL', 		'http://www.cloudspokes.com/challenges.rss');
+	update_option('ssChallengeItems', 		5);
+	update_option('ssChallengeAll', 		'http://www.cloudspokes.com/challenges');
+
+	// Blog Feed
+	update_option('ssBlogLabel', 			'Blog Feed');
+	update_option('ssBlogURL', 				'http://www.docusign.com/blog/rss');
+	update_option('ssBlogItems', 			5);
+	update_option('ssBlogAll', 				'http://www.docusign.com/blog/');
+
+	// Social Media
+	update_option('ssFacebookURL', 			'https://www.facebook.com/DocuSign');
+	update_option('ssTwitterURL', 			'https://twitter.com/DocuSign');
+	update_option('ssBlogURL', 				'http://www.docusign.com/blog');
+	update_option('ssLinkedInURL', 			'http://www.linkedin.com/company/docusign');
+
+	// Other Options
+	update_option('ssCopyright', 			'&copy; 2013. All Rights Reserved.');
+}
+
 // Update options function
 function themeoptions_update() {
 	
-	// Challenge		
-	update_option('ssChallengeLabel', 	$_POST['ssChallengeLabel']);
-	update_option('ssChallengeURL', 	$_POST['ssChallengeURL']);
-	update_option('ssChallengeItems', 	$_POST['ssChallengeItems']);
-	update_option('ssChallengeAll', 	$_POST['ssChallengeAll']);
+	// CS Challenge		
+	update_option('ssChallengeLabel', 		$_POST['ssChallengeLabel']);
+	update_option('ssChallengeURL', 		$_POST['ssChallengeURL']);
+	update_option('ssChallengeItems', 		$_POST['ssChallengeItems']);
+	update_option('ssChallengeAll', 		$_POST['ssChallengeAll']);
 
 	// Blog Feed
-	update_option('ssBlogLabel', 		$_POST['ssBlogLabel']);
-	update_option('ssBlogURL', 			$_POST['ssBlogURL']);
-	update_option('ssBlogItems', 		$_POST['ssBlogItems']);
-	update_option('ssBlogAll', 			$_POST['ssBlogAll']);
-
-	// Twitter Feed
-	update_option('ssTweetLabel', 		$_POST['ssTweetLabel']);
-	update_option('ssTweetURL', 		$_POST['ssTweetURL']);
-	update_option('ssTweetItems', 		$_POST['ssTweetItems']);
-	update_option('ssTweetAll', 		$_POST['ssTweetAll']);
+	update_option('ssBlogLabel', 			$_POST['ssBlogLabel']);
+	update_option('ssBlogURL', 				$_POST['ssBlogURL']);
+	update_option('ssBlogItems', 			$_POST['ssBlogItems']);
+	update_option('ssBlogAll', 				$_POST['ssBlogAll']);
 
 	// Social Media
-	update_option('ssFacebookURL', 		$_POST['ssFacebookURL']);
-	update_option('ssTwitterURL', 		$_POST['ssTwitterURL']);
-	update_option('ssYoutubeURL', 		$_POST['ssYoutubeURL']);
-	update_option('ssLinkedInURL', 		$_POST['ssLinkedInURL']);
+	update_option('ssFacebookURL', 			$_POST['ssFacebookURL']);
+	update_option('ssTwitterURL', 			$_POST['ssTwitterURL']);
+	update_option('ssBlogURL', 				$_POST['ssBlogURL']);
+	update_option('ssLinkedInURL', 			$_POST['ssLinkedInURL']);
 
 	// Other Options
-	update_option('ssCopyright', 		$_POST['ssCopyright']);
+	update_option('ssCopyright', 			$_POST['ssCopyright']);
 
 }
 /* END OF THEME OPTIONS SUPPORT

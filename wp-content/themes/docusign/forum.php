@@ -5,7 +5,7 @@
 	
 	<!-- start of the loop -->
 	<?php  if (have_posts()) : while (have_posts()) :  the_post(); ?>
-	<article id="post-<?php the_ID(); ?>" role="article">
+	<article id="post-<?php the_ID(); ?>" role="forum">
 
 		<!-- article title -->
 		<h1 class="entry-title"><?php the_title(); ?></h1>

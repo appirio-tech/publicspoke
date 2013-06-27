@@ -12,6 +12,7 @@
 
         <!-- stylesheets -->
 		<link rel="stylesheet" href="<?php echo get_bloginfo('template_url'); ?>/css/normalize.css">
+		<link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto">
         <link rel="stylesheet" href="<?php echo get_bloginfo('template_url'); ?>/css/main.css">
 		
         <script src="<?php echo get_bloginfo('template_url'); ?>/js/vendor/modernizr-2.6.2.min.js"></script>
@@ -28,13 +29,22 @@
 				<a href="<?php echo home_url(); ?>" title="<?php bloginfo('name'); ?>" id="logo"><img src="<?php header_image(); ?>" height="<?php echo get_custom_header()->height; ?>" width="<?php echo get_custom_header()->width; ?>" alt="<?php bloginfo('name'); ?> Logo" /></a>
 				
 				<nav>
-					<?php 
-						$nav = array(
-							  'menu'     	=> 'Main Navigation', 
-							  'container'	=> false);
-						wp_nav_menu($nav); 				
-					?>
+					<ul class="socialMedia">
+						<li><a href="<?php echo get_option('ssFacebookURL'); ?>" class="facebook"><span class="hidden">Facebook</span></a></li>
+						<li><a href="<?php echo get_option('ssTwitterURL'); ?>" class="twitter"><span class="hidden">Twitter</span></a></li>
+						<li><a href="<?php echo get_option('ssLinkedInURL'); ?>" class="linkedin"><span class="hidden">LinkedIn</span></a></li>
+						<li><a href="<?php echo get_option('ssBlogURL'); ?>" class="blog"><span class="hidden">Blog</span></a></li>
+					</ul>					
 				</nav>
+
+				<div id="mainNav">
+				<?php 
+					$nav = array(
+						  'menu'     	=> 'Main Navigation', 
+						  'container'	=> false);
+					wp_nav_menu($nav); 				
+				?>
+				</div>
 				
 			</div>
 			
